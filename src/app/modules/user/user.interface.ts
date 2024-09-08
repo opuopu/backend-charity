@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Model } from 'mongoose';
 export enum UserRole {
-  super_admin = 'super_admin',
-  sub_admin = 'sub_admin',
-  provider = 'provider',
-  customer = 'customer',
-  employee = 'employee',
+  admin = 'admin',
+  applicant = 'applicant',
 }
 export enum status {
   pending = 'pending',
@@ -17,10 +14,15 @@ interface Verification {
   expiresAt: Date;
   status: boolean;
 }
+interface name {
+  firstName: string;
+  middleName: string;
+}
 export interface TUser {
+  sureName: string;
   [x: string]: any;
-  id?: string;
   email?: string;
+  name: name;
   password: string;
   phoneNumber: string;
   needsPasswordChange: boolean;
@@ -28,6 +30,7 @@ export interface TUser {
   role: UserRole;
   status?: status;
   isVerified: boolean;
+  phoneNo: string;
   isActive: boolean;
   isDeleted: boolean;
   verification: Verification;
@@ -36,7 +39,6 @@ export interface TUser {
 
 export interface UserModel extends Model<TUser> {
   isUserExist(email: string): Promise<TUser>;
-  isUserExistByNumber(countryCode: string, phoneNumber: string): Promise<TUser>;
   IsUserExistbyId(id: string): Promise<TUser>;
   isPasswordMatched(
     plainTextPassword: string,

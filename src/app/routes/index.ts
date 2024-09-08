@@ -3,6 +3,7 @@ import { authRoutes } from '../modules/auth/auth.route';
 import { otpRoutes } from '../modules/otp/otp.routes';
 import { userRoutes } from '../modules/user/user.route';
 
+import { applicationRoutes } from '../modules/application/application.route';
 import { notificationRoutes } from '../modules/notification/notificaiton.route';
 
 const router = Router();
@@ -20,6 +21,10 @@ const moduleRoutes = [
     route: otpRoutes,
   },
 
+  {
+    path: '/applications',
+    route: applicationRoutes,
+  },
   {
     path: '/notifications',
     route: notificationRoutes,

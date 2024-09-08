@@ -3,5 +3,6 @@ export const USER_ROLE = {
   vendor: 'vendor',
   user: 'user',
   all: ['admin', 'vendor', 'user'].join(','),
+  applicant: 'applicant',
 };
 export const UserStatus = ['pending', 'active', 'blocked'];

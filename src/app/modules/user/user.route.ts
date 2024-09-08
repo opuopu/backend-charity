@@ -1,64 +1,29 @@
 import { Router } from 'express';
 import auth from '../../middleware/auth';
-import upload from '../../middleware/fileUpload';
-import parseData from '../../middleware/parseData';
 import { USER_ROLE } from './user.constant';
 import { userControllers } from './user.controller';
 
 const router = Router();
 router.post(
-  '/create-customers',
-  upload.single('file'),
-  parseData(),
-  userControllers.insertCustomerIntoDb,
-);
-router.post(
-  '/create-vendor',
-
-  parseData(),
-  userControllers.insertVendorIntoDb,
-);
-router.patch(
-  '/update/:id',
-  auth(USER_ROLE.admin),
-
-  parseData(),
-  userControllers.updateUser,
-);
-router.patch(
   '/',
-  auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.vendor),
-
-  parseData(),
-  userControllers.updateProfile,
+  // upload.single('file'),
+  // parseData(),
+  userControllers.insertUserIntodb,
 );
 router.get(
-  '/all',
-  auth(USER_ROLE.vendor, USER_ROLE.admin),
-  userControllers.getAllUsers,
-);
-router.get(
-  '/',
-  auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.vendor),
+  '/profile',
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
   userControllers.getme,
 );
-
-router.get(
-  '/:id',
-  auth(USER_ROLE.vendor, USER_ROLE.admin),
+router.patch(
+  '/',
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
   userControllers.getsingleUser,
 );
-router.patch(
-  '/update/:id',
-  auth(USER_ROLE.admin),
-  parseData(),
-  userControllers.updateUser,
-);
-router.patch(
+router.get(
   '/:id',
-  auth(USER_ROLE.user),
-  parseData(),
-  userControllers.updateProfile,
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
+  userControllers.getsingleUser,
 );
 router.delete(
   '/',

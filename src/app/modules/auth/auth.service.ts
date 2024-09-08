@@ -9,15 +9,13 @@ import AppError from '../../error/AppError';
 import { sendEmail } from '../../utils/mailSender';
 import { generateOtp } from '../../utils/otpGenerator';
 
-import Customer from '../customer/customer.model';
-import { UserRole } from '../user/user.interface';
 import User from '../user/user.model';
 import { TchangePassword, Tlogin, TresetPassword } from './auth.interface';
 import { createToken, verifyToken } from './auth.utils';
 
 const login = async (payload: Tlogin) => {
-  const user = await User.isUserExistByNumber(payload?.phoneNumber as string);
-  let profile;
+  const user = await User.isUserExist(payload?.email as string);
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User Not Found');
   }
@@ -25,29 +23,17 @@ const login = async (payload: Tlogin) => {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
   }
   if (user?.isDeleted) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted ! ! ');
   }
   if (!user?.isVerified) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'user is not verified !');
+    throw new AppError(httpStatus.BAD_REQUEST, 'user is not verified ! !');
   }
 
-  switch (user?.role) {
-    case UserRole.customer:
-      profile = await Customer.findOne({ user: user?._id });
-      break;
-    // case 'provider':
-    //   profile = await Customer.findOne({ user: user?._id });
-    //   break;
-
-    default:
-      break;
-  }
   if (!(await User.isPasswordMatched(payload.password, user.password))) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'password do not match');
+    throw new AppError(httpStatus.BAD_REQUEST, 'Password do not match !');
   }
   const jwtPayload = {
     userId: user?._id,
-    profileId: profile?._id,
     role: user.role,
   };
   const accessToken = createToken(
@@ -62,7 +48,6 @@ const login = async (payload: Tlogin) => {
     config.jwt_refresh_expires_in as string,
   );
   return {
-    user,
     accessToken,
     refreshToken,
   };

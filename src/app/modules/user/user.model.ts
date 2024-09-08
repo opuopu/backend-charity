@@ -21,58 +21,74 @@ const VerificationSchema = new Schema({
 });
 
 // Define the schema for the User model
-const UserSchema = new Schema<TUser, UserModel>(
-  {
-    email: {
-      type: String,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    countryCode: {
-      type: String,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    needsPasswordChange: {
-      type: Boolean,
-      default: false,
-    },
-    passwordChangedAt: {
-      type: Date,
-    },
-    role: {
-      type: String,
-      enum: Object.values(UserRole),
-      required: true,
-    },
-    isActive: {
-      type: Boolean,
-      default: false,
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
-    verification: {
-      type: VerificationSchema,
-      required: true,
-    },
+const nameSchema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
   },
-  {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+  middleName: {
+    type: String,
+    required: false,
   },
-);
+});
+
+const UserSchema = new Schema({
+  sureName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: false,
+  },
+  name: nameSchema,
+  password: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  needsPasswordChange: {
+    type: Boolean,
+    required: true,
+  },
+  passwordChangedAt: {
+    type: Date,
+    required: false,
+  },
+  role: {
+    type: String,
+    enum: Object.values(UserRole), // Define UserRole options here
+    required: true,
+  },
+  status: {
+    type: String, // Add more specific structure if necessary
+    required: false,
+  },
+  isVerified: {
+    type: Boolean,
+    required: true,
+  },
+  phoneNo: {
+    type: String,
+    required: true,
+  },
+  isActive: {
+    type: Boolean,
+    required: true,
+  },
+  isDeleted: {
+    type: Boolean,
+    required: true,
+  },
+  verification: VerificationSchema,
+  countryCode: {
+    type: String,
+    required: true,
+  },
+});
 
 // Pre-save hook to hash password if it is modified or new
 UserSchema.pre('save', async function (next) {
@@ -95,14 +111,6 @@ UserSchema.statics.isUserExist = async function (
   email: string,
 ): Promise<TUser | null> {
   return this.findOne({ email });
-};
-
-// Check if a user exists by phone number
-UserSchema.statics.isUserExistByNumber = async function (
-  countryCode: string,
-  phoneNumber: string,
-) {
-  return this.findOne({ countryCode, phoneNumber }).select('+password');
 };
 
 // Check if a user exists by ID
