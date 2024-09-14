@@ -2,6 +2,7 @@ import { ObjectId } from 'mongoose';
 import { status } from './application.constant';
 
 export interface IQualification {
+  degreeLevel: string;
   degree: string;
   discipline: string;
   university: string;
@@ -23,6 +24,7 @@ export interface IEnglishProficiency {
 
 export interface IPostGraduateStudy {
   degree: string;
+
   discipline: string;
   university: string;
   plannedStart: Date;

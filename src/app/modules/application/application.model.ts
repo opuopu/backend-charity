@@ -9,6 +9,7 @@ import {
 
 // Qualification Schema
 const qualificationSchema = new Schema<IQualification>({
+  degreeLevel: { type: String },
   degree: { type: String, required: true },
   discipline: { type: String, required: true },
   university: { type: String, required: true },
