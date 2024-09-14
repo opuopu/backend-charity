@@ -10,13 +10,13 @@ import {
 // Qualification Schema
 const qualificationSchema = new Schema<IQualification>({
   degreeLevel: { type: String },
-  degree: { type: String, required: true },
-  discipline: { type: String, required: true },
-  university: { type: String, required: true },
-  commenced: { type: Date, required: true },
-  completed: { type: Date, required: true },
-  overallMark: { type: Number, required: true },
-  overallGPA: { type: Number, required: true },
+  degree: { type: String },
+  discipline: { type: String },
+  university: { type: String },
+  commenced: { type: Date },
+  completed: { type: Date },
+  overallMark: { type: Number },
+  overallGPA: { type: Number },
 });
 
 // English Proficiency Schema
@@ -32,14 +32,15 @@ const englishProficiencySchema = new Schema<IEnglishProficiency>({
 
 // Post Graduate Study Schema
 const postGraduateStudySchema = new Schema<IPostGraduateStudy>({
-  degree: { type: String, required: true },
-  discipline: { type: String, required: true },
-  university: { type: String, required: true },
-  plannedStart: { type: Date, required: true },
-  duration: { type: Number, required: true },
-  isAlreadyApplied: { type: Boolean, required: true },
-  isAustralianVisaApplied: { type: Boolean, required: true },
-  isAustralianVisaGranted: { type: Boolean, required: true },
+  degree: { type: String },
+  discipline: { type: String },
+  university: { type: String },
+  plannedStart: { type: Date },
+  duration: { type: Date },
+  tuitionFee: { type: Number },
+  alreadyApplied: { type: Boolean },
+  australianVisaApplied: { type: Boolean },
+  australianVisaGranted: { type: Boolean },
 });
 
 // Main Application Schema

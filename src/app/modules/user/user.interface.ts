@@ -19,7 +19,7 @@ interface name {
   middleName: string;
 }
 export interface TUser {
-  sureName: string;
+  surName: string;
   [x: string]: any;
   email?: string;
   name: name;
@@ -30,7 +30,7 @@ export interface TUser {
   role: UserRole;
   status?: status;
   isVerified: boolean;
-  phoneNo: string;
+  // phoneNo: string;
   isActive: boolean;
   isDeleted: boolean;
   verification: Verification;

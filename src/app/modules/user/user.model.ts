@@ -33,7 +33,7 @@ const nameSchema = new Schema({
 });
 
 const UserSchema = new Schema({
-  sureName: {
+  surName: {
     type: String,
     required: true,
   },
@@ -52,7 +52,7 @@ const UserSchema = new Schema({
   },
   needsPasswordChange: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   passwordChangedAt: {
     type: Date,
@@ -71,10 +71,10 @@ const UserSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  phoneNo: {
-    type: String,
-    required: true,
-  },
+  // phoneNo: {
+  //   type: String,
+  //   required: true,
+  // },
   isActive: {
     type: Boolean,
     required: true,

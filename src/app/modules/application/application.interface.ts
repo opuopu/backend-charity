@@ -24,14 +24,14 @@ export interface IEnglishProficiency {
 
 export interface IPostGraduateStudy {
   degree: string;
-
+  tuitionFee: number;
   discipline: string;
   university: string;
   plannedStart: Date;
-  duration: number;
-  isAlreadyApplied: boolean;
-  isAustralianVisaApplied: boolean;
-  isAustralianVisaGranted: boolean;
+  duration: Date;
+  alreadyApplied: boolean;
+  australianVisaApplied: boolean;
+  australianVisaGranted: boolean;
 }
 
 export interface IApplication {
