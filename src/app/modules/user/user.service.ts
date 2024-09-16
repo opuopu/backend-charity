@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import AppError from '../../error/AppError';
 
+import jwt, { Secret } from 'jsonwebtoken';
+import config from '../../config';
 import { otpServices } from '../otp/otp.service';
 import { TUser } from './user.interface';
 import User from './user.model';
@@ -17,9 +19,18 @@ const insertUserIntodb = async (payload: TUser) => {
     );
   }
   const result = await User.create(payload);
-
+  const jwtPayload = {
+    email: payload?.email,
+    id: result?._id,
+  };
+  const token = jwt.sign(jwtPayload, config.jwt_access_secret as Secret, {
+    expiresIn: '3m',
+  });
   await otpServices.resendOtp(payload?.email as string);
-  return result;
+  return {
+    result,
+    token,
+  };
 };
 
 const getme = async (id: string) => {
