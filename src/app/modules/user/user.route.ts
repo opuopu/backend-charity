@@ -18,7 +18,7 @@ router.get(
 router.patch(
   '/',
   auth(USER_ROLE.applicant, USER_ROLE.admin),
-  userControllers.getsingleUser,
+  userControllers.updateUser,
 );
 router.get(
   '/:id',

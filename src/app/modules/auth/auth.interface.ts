@@ -10,7 +10,7 @@ export type Tlogin = {
 };
 export type TchangePassword = {
   oldPassword: string;
-  newPassword: string;
+  password: string;
   confirmPassword: string;
 };
 export type TresetPassword = {

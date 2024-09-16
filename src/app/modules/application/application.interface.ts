@@ -29,6 +29,7 @@ export interface IPostGraduateStudy {
   university: string;
   plannedStart: Date;
   duration: Date;
+  admissionGranted?: boolean;
   alreadyApplied: boolean;
   australianVisaApplied: boolean;
   australianVisaGranted: boolean;

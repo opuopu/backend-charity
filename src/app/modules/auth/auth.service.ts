@@ -62,14 +62,14 @@ const changePassword = async (id: string, payload: TchangePassword) => {
   if (!(await User.isPasswordMatched(payload?.oldPassword, user.password))) {
     throw new AppError(httpStatus.FORBIDDEN, 'old password do not match!');
   }
-  if (payload?.newPassword !== payload?.confirmPassword) {
+  if (payload?.password !== payload?.confirmPassword) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       'old password and new password do not match',
     );
   }
   const hashedPassword = await bcrypt.hash(
-    payload?.newPassword,
+    payload?.password,
     Number(config.bcrypt_salt_rounds),
   );
   const result = await User.findByIdAndUpdate(

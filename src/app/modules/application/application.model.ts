@@ -39,6 +39,7 @@ const postGraduateStudySchema = new Schema<IPostGraduateStudy>({
   duration: { type: Date },
   tuitionFee: { type: Number },
   alreadyApplied: { type: Boolean },
+  admissionGranted: { type: Boolean },
   australianVisaApplied: { type: Boolean },
   australianVisaGranted: { type: Boolean },
 });
