@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import httpStatus from 'http-status';
-import AppError from '../../error/AppError';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import config from '../../config';
-import { User } from '../user/user.model';
-import { generateOtp } from '../../utils/otpGenerator';
+import AppError from '../../error/AppError';
+
 import moment from 'moment';
 import { sendEmail } from '../../utils/mailSender';
+import { generateOtp } from '../../utils/otpGenerator';
+import User from '../user/user.model';
 
 const verifyOtp = async (token: string, otp: string | number) => {
   console.log(otp, 'otp');
@@ -63,14 +65,13 @@ const verifyOtp = async (token: string, otp: string | number) => {
 };
 
 const resendOtp = async (email: string) => {
-  console.log(email);
   const user = await User.findOne({ email });
 
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'user not found');
   }
   const otp = generateOtp();
-  const expiresAt = moment().add(2, 'minute');
+  const expiresAt = moment().add(3, 'minute');
   const updateOtp = await User.findByIdAndUpdate(user?._id, {
     $set: {
       verification: {
@@ -94,7 +95,7 @@ const resendOtp = async (email: string) => {
     expiresIn: '2m',
   });
   await sendEmail(
-    user?.email,
+    user?.email as string,
     'Your One Time Otp',
     `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
     <h2 style="color: #4CAF50;">Your One Time OTP</h2>

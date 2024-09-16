@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import AppError from '../../error/AppError';
 
+import { otpServices } from '../otp/otp.service';
 import { TUser } from './user.interface';
 import User from './user.model';
 // create user
@@ -16,6 +17,8 @@ const insertUserIntodb = async (payload: TUser) => {
     );
   }
   const result = await User.create(payload);
+
+  await otpServices.resendOtp(payload?.email as string);
   return result;
 };
 
