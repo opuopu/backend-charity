@@ -15,6 +15,12 @@ const getsingleApplication = async (id: string) => {
   const result = await Application.findById(id).populate('applicant');
   return result;
 };
+const getMyApplications = async (id: string) => {
+  const result = await Application.find({ applicant: id }).populate(
+    'applicant',
+  );
+  return result;
+};
 
 const updateApplication = async (
   id: string,
@@ -42,4 +48,5 @@ export const applicaitonServices = {
   getsingleApplication,
   updateApplication,
   deleteApplication,
+  getMyApplications,
 };

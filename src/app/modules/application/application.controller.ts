@@ -36,6 +36,16 @@ const getsingleApplication = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getMyApplications = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.user);
+  const result = await applicaitonServices.getMyApplications(req.user.userId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Applicaitons retrived successfully !!',
+    data: result,
+  });
+});
 const updateApplication = catchAsync(async (req: Request, res: Response) => {
   const result = await applicaitonServices.updateApplication(
     req.params.id,
@@ -64,4 +74,5 @@ export const applicationControllers = {
   getsingleApplication,
   updateApplication,
   deleteApplication,
+  getMyApplications,
 };

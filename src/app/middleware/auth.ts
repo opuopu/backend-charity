@@ -25,6 +25,8 @@ const auth = (...userRoles: string[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, 'unauthorized');
     }
     const { role, userId } = decode;
+
+    console.log(role, userId);
     const isUserExist = User.IsUserExistbyId(userId);
     if (!isUserExist) {
       throw new AppError(httpStatus.NOT_FOUND, 'user not found');

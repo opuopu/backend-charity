@@ -12,17 +12,18 @@ router.post(
 );
 router.get(
   '/',
-  auth(USER_ROLE.applicant, USER_ROLE.applicant),
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
   applicationControllers.getAllApplication,
 );
 router.get(
-  '/:id',
-  auth(USER_ROLE.applicant, USER_ROLE.applicant),
-  applicationControllers.getsingleApplication,
+  '/my-applications',
+  auth(USER_ROLE.applicant),
+  applicationControllers.getMyApplications,
 );
+
 router.get(
   '/:id',
-  auth(USER_ROLE.applicant, USER_ROLE.applicant),
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
   applicationControllers.getsingleApplication,
 );
 router.patch(
@@ -32,7 +33,7 @@ router.patch(
 );
 router.delete(
   '/:id',
-  auth(USER_ROLE.applicant, USER_ROLE.applicant),
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
   applicationControllers.updateApplication,
 );
 
