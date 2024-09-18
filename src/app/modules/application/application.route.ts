@@ -28,7 +28,7 @@ router.get(
 );
 router.patch(
   '/:id',
-  auth(USER_ROLE.applicant, USER_ROLE.applicant),
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
   applicationControllers.updateApplication,
 );
 router.delete(

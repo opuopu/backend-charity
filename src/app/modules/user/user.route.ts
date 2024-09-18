@@ -16,6 +16,11 @@ router.get(
   userControllers.getme,
 );
 router.patch(
+  '/update-user/:id',
+  auth(USER_ROLE.applicant, USER_ROLE.admin),
+  userControllers.updateUser,
+);
+router.patch(
   '/',
   auth(USER_ROLE.applicant, USER_ROLE.admin),
   userControllers.updateUser,

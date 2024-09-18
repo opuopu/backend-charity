@@ -7,7 +7,45 @@ const insertApplicationintoDb = async (payload: IApplication) => {
   return result;
 };
 const getAllApplication = async (query: Record<string, any>) => {
-  const result = await Application.find(query).populate('applicant');
+  const pipeline: any[] = [];
+
+  // Add the initial match stage if there are other query filters
+  const { searchTerm, ...otherQuery } = query;
+  if (Object.keys(otherQuery).length > 0) {
+    pipeline.push({ $match: otherQuery });
+  }
+
+  // Perform lookup to populate 'applicant'
+  pipeline.push({
+    $lookup: {
+      from: 'users', // Replace with your actual applicant collection name
+      localField: 'applicant',
+      foreignField: '_id',
+      as: 'applicant',
+    },
+  });
+
+  // Unwind the applicant array
+  pipeline.push({ $unwind: '$applicant' });
+
+  // Apply regex search if searchTerm is provided
+  if (searchTerm) {
+    pipeline.push({
+      $match: {
+        $or: [
+          { 'applicant.surName': { $regex: searchTerm, $options: 'i' } },
+          { 'applicant.email': { $regex: searchTerm, $options: 'i' } },
+        ],
+      },
+    });
+  }
+
+  console.log('Aggregation Pipeline:', pipeline);
+
+  // Execute the aggregation pipeline
+  const result = await Application.aggregate(pipeline);
+  console.log('Aggregation Result:', result);
+
   return result;
 };
 
