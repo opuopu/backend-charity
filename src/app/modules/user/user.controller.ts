@@ -21,6 +21,36 @@ const getme = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllusers = catchAsync(async (req: Request, res: Response) => {
+  // Clone the query object from the request
+  const query = { ...req.query };
+
+  // Check for a search term and apply the regex conditions
+  if (req?.query?.searchTerm) {
+    const searchTerm = req.query.searchTerm as string;
+
+    // Add regex condition for `surName` and `email`
+    query.$or = [
+      { surName: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match
+      { email: { $regex: searchTerm, $options: "i" } },
+    ];
+  }
+
+  // Exclude admin users
+  query["role"] = { $ne: "admin" };
+
+  // Pass the modified query to the service layer
+  const result = await userServices.getAllusers(query);
+
+  // Send the response
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Users retrieved successfully",
+    data: result,
+  });
+});
+
 const getsingleUser = catchAsync(async (req: Request, res: Response) => {
   const result = await userServices.getSingleUser(req.params.id);
   sendResponse(res, {
@@ -59,6 +89,7 @@ const deleteAccount = catchAsync(async (req: Request, res: Response) => {
 
 export const userControllers = {
   insertUserIntodb,
+  getAllusers,
   getme,
   getsingleUser,
   deleteAccount,

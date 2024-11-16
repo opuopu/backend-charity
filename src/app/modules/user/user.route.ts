@@ -11,6 +11,11 @@ router.post(
   userControllers.insertUserIntodb,
 );
 router.get(
+  '/',
+  auth(USER_ROLE.admin),
+  userControllers.getAllusers,
+);
+router.get(
   '/profile',
   auth(USER_ROLE.applicant, USER_ROLE.admin),
   userControllers.getme,

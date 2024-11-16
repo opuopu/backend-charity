@@ -37,6 +37,11 @@ const getme = async (id: string) => {
   const result = await User.findById(id);
   return result;
 };
+const getAllusers = async (id: string) => {
+  const result = await User.find({role:{$ne:"admin"}});
+  return result;
+};
+
 
 const updateUser = async (id: string, payload: Partial<TUser>) => {
   const result = await User.findByIdAndUpdate(id, payload);
@@ -75,4 +80,5 @@ export const userServices = {
   getSingleUser,
   deleteAccount,
   updateUser,
+  getAllusers
 };
