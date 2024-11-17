@@ -37,8 +37,8 @@ const getme = async (id: string) => {
   const result = await User.findById(id);
   return result;
 };
-const getAllusers = async (id: string) => {
-  const result = await User.find({role:{$ne:"admin"}});
+const getAllusers = async (query:Record<string,any>) => {
+  const result = await User.find(query);
   return result;
 };
 
