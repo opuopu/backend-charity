@@ -39,13 +39,9 @@ const getAllusers = catchAsync(async (req: Request, res: Response) => {
       delete query.searchTerm;
     }
   }
-  
-  // Ensure other conditions like `role` remain intact
-  query.role = { $ne: "admin" };
-  
 
-  // Exclude admin users
-  query["role"] = { $ne: "admin" };
+  // Exclude admin users (ensure role condition is set only once)
+  query.role = { $ne: "admin" };
 
   // Pass the modified query to the service layer
   const result = await userServices.getAllusers(query);
@@ -58,6 +54,7 @@ const getAllusers = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 
 const getsingleUser = catchAsync(async (req: Request, res: Response) => {
   const result = await userServices.getSingleUser(req.params.id);
