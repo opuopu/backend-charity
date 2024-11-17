@@ -25,7 +25,7 @@ const getAllusers = catchAsync(async (req: Request, res: Response) => {
   // Clone the query object from the request
   const query = { ...req.query };
 
-  if (req?.query?.searchTerm) {
+  if (req?.query?.searchTerm && req?.query?.searcthTerm.trim() !=="") {
     const searchTerm = req.query.searchTerm as string;
   
     // Check if searchTerm is not an empty string
