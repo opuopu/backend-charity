@@ -38,6 +38,7 @@ const getme = async (id: string) => {
   return result;
 };
 const getAllusers = async (query:Record<string,any>) => {
+  console.log(query)
   const result = await User.find(query);
   return result;
 };
