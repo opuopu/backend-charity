@@ -25,16 +25,19 @@ const getAllusers = catchAsync(async (req: Request, res: Response) => {
   // Clone the query object from the request
   const query = { ...req.query };
 
-  // Check for a search term and apply the regex conditions
   if (req?.query?.searchTerm) {
     const searchTerm = req.query.searchTerm as string;
-
-    // Add regex condition for `surName` and `email`
-    query.$or = [
-      { surName: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match
-      { email: { $regex: searchTerm, $options: "i" } },
-    ];
+  
+    // Check if searchTerm is not an empty string
+    if (searchTerm.trim() !== "") {
+      // Add regex condition for `surName` and `email`
+      query.$or = [
+        { surName: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match
+        { email: { $regex: searchTerm, $options: "i" } },
+      ];
+    }
   }
+  
 
   // Exclude admin users
   query["role"] = { $ne: "admin" };
