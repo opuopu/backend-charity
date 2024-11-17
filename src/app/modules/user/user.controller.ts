@@ -22,25 +22,21 @@ const getme = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getAllusers = catchAsync(async (req: Request, res: Response) => {
-  // Clone the query object from the request
-  const query = { ...req.query };
-
-  if (req?.query?.searchTerm) {
-    const searchTerm = req.query.searchTerm as string;
+  // Clone the query object from the request, but remove empty searchTerm early
+  const { searchTerm, ...restQuery } = req.query;
   
-    if (searchTerm.trim() !== "") {
-      // Add regex condition for `surName` and `email` if searchTerm is valid
-      query.$or = [
-        { surName: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match
-        { email: { $regex: searchTerm, $options: "i" } },
-      ];
-    } else {
-      // If searchTerm is empty, ensure it's removed from the query
-      delete query.searchTerm;
-    }
+  // Initialize query
+  const query = { ...restQuery }; // Spread the rest of the query, excluding searchTerm
+
+  if (searchTerm && searchTerm.trim() !== "") {
+    // Add regex condition for `surName` and `email` if searchTerm is valid
+    query.$or = [
+      { surName: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match
+      { email: { $regex: searchTerm, $options: "i" } },
+    ];
   }
 
-  // Exclude admin users (ensure role condition is set only once)
+  // Exclude admin users
   query.role = { $ne: "admin" };
 
   // Pass the modified query to the service layer
@@ -54,6 +50,7 @@ const getAllusers = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 
 
 const getsingleUser = catchAsync(async (req: Request, res: Response) => {
